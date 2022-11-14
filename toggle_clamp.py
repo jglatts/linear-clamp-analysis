@@ -15,13 +15,7 @@ def calcPts(theta, lhandle, lpivot, lbar):
     xpiston = xpivot + dx
     return [xpivot, ypivot, xhandle, yhandle, xpiston]
 
-def mechAdvantage():
-    # dimensions of the parts
-    lhandle = 20.32
-    lpivot = 15
-    lbar = 13.43
-    theta = 28
-
+def mechAdvantage(lhandle, lpivot, lbar, theta):
     # we are going to calculate and store three things
     # tt = the angle theta of the clamp. - zero is vertical
     # ll - the position of the plunger
@@ -51,8 +45,6 @@ def mechAdvantage():
     # draw graphs with findings
     figure, axis = plt.subplots(1, 2, figsize=(13, 5))
     axis[0].set_title("position of the plunger vs theta")
-    #plt.xlabel('xlabel', fontsize=18)
-    #plt.ylabel('ylabel', fontsize=16)
     axis[0].set_xlabel("theta")
     axis[0].set_ylabel("position of the plunger")
     axis[0].text(0, 0, "test", fontsize=12)
@@ -77,5 +69,5 @@ def computePoints():
 
 
 if __name__ == '__main__':
-    mechAdvantage()
+    mechAdvantage(20.32, 15, 13.43, 69)
 
