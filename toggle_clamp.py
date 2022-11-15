@@ -66,8 +66,8 @@ def mechAdvantage(lhandle, lpivot, lbar, theta):
 def animateFunc(frame_number):  
     ax.clear()
     angle = 90
-    theta_min = -3.6
-    theta_max = 29.09
+    theta_min = 1
+    theta_max = 96.73571428571428
     dtheta =  float(theta_max - theta_min) / float(49)
     theta = frame_number * dtheta 
 
@@ -100,11 +100,11 @@ def animateFunc(frame_number):
         print('\n')
 
     # plot the points
-    ax.plot( [0,xpivot, xhandle], [0, ypivot, yhandle], "*-", linewidth=3, label="lever")
+    ax.plot( [0, xpivot, xhandle], [0, ypivot, yhandle], "*-", linewidth=3, label="lever")
     ax.plot([xpivot, xpiston], [ypivot, 0], '*-',linewidth=3, label="arm")
     ax.plot([xpiston-lplunger/2, xpiston+lplunger/2],[0,0], linewidth=3, label="plunger")
     ax.plot([xbase_min, xbase_max], [-5,-5], linewidth=3, label="base")
-    
+
     ax.legend()
     return ax.plot
 
@@ -125,12 +125,11 @@ def makeAnimation():
     global fig
     global ax
     global print_points
-    global frame_max
-    frame_max = 200
     print_points = True
     fig = plt.figure(figsize=(8,6))
     ax = plt.axes()
-    anim = animation.FuncAnimation(fig, animateFunc, frames=145, blit=False, repeat=True, interval=10)
+    # eyes on frame 40
+    anim = animation.FuncAnimation(fig, animateFunc, frames=55, blit=False, repeat=True, interval=10)
     plt.show()
 
 
