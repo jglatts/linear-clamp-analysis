@@ -1,2 +1,6 @@
 # Linear-Clamp-Analysis
-python program for linear clamp design calculations 
+Python program for linear clamp design and linkage calculations.  
+
+
+## System Animation
+![system_animated_gif](https://github.com/jglatts/Linear-Clamp-Analysis/blob/main/system.gif)
