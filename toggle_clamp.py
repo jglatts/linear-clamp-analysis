@@ -67,7 +67,7 @@ def mechAdvantage(lhandle, lpivot, lbar, theta):
 def animateFunc(frame_number):  
     # clamp constants
     angle = 90
-    theta_min = 1
+    theta_min = 30
     theta_max = 96.74
     lhandle = 20
     lpivot = 15
@@ -77,7 +77,7 @@ def animateFunc(frame_number):
     xbase_max = 60
 
     dtheta =  float(theta_max - theta_min) / float(49)
-    theta = frame_number * dtheta   
+    theta = (frame_number * dtheta) + theta_min  
     # ugly hack below to get the 'correct' physics of the clamp
     if (frame_number < (max_frames/2)):
         prev_thetas.append(theta)
@@ -112,7 +112,11 @@ def animateFunc(frame_number):
     ax.plot([xbase_min, xbase_max], [-5,-5], linewidth=3, label="base")
 
     ax.legend()
-    return ax.plot
+    ax.plot()
+
+    if (frame_number == (max_frames/2)):
+        plt.savefig('clamp_locked.png')
+
 
 
 def computePoints():
@@ -139,7 +143,7 @@ def makeAnimation():
     max_frames = 100
     fig = plt.figure(figsize=(8,6))
     ax = plt.axes()
-    anim = animation.FuncAnimation(fig, animateFunc, frames=max_frames+1,blit=False, repeat=False, interval=10)
+    anim = animation.FuncAnimation(fig, animateFunc, frames=max_frames+1, blit=False, repeat=True, interval=10)
     anim_video = animation.PillowWriter(fps=60)
     anim.save('system.gif', writer=anim_video)
     plt.show()
