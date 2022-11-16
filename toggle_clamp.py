@@ -3,6 +3,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+import time
 from matplotlib import rc
 
 
@@ -45,7 +46,7 @@ def mechAdvantage(lhandle, lpivot, lbar, theta):
 
     print("  angle\t\tmechanical advantage")
     print("------------------------------")
-    for theta in range(0,89, 5):
+    for theta in range(0,89, 1):
         print("{:5d}        {:7.2f} ".format(theta, mechanical_advantage[theta]))        
 
     # draw graphs with findings
@@ -64,13 +65,10 @@ def mechAdvantage(lhandle, lpivot, lbar, theta):
 
 
 def animateFunc(frame_number):  
-    ax.clear()
+    # clamp constants
     angle = 90
     theta_min = 1
-    theta_max = 96.73571428571428
-    dtheta =  float(theta_max - theta_min) / float(49)
-    theta = frame_number * dtheta 
-
+    theta_max = 96.74
     lhandle = 20
     lpivot = 15
     lbar = 13
@@ -78,11 +76,20 @@ def animateFunc(frame_number):
     xbase_min = -13
     xbase_max = 60
 
-    # calculate the key pionts
+    dtheta =  float(theta_max - theta_min) / float(49)
+    theta = frame_number * dtheta   
+    # ugly hack below to get the 'correct' physics of the clamp
+    if (frame_number < (max_frames/2)):
+        prev_thetas.append(theta)
+    else:
+        theta = prev_thetas.pop()
+
+    # calculate points along the clamp
     xpivot, ypivot, xhandle, yhandle, xpiston = calcPts(theta, lhandle, lpivot, lbar)
 
-    # set up the graph
-    plt.title("diagram of the clamp")
+    # set up the animation
+    ax.clear()
+    plt.title("Linear Clamp System Animation")
     ax.set_xlim(-80,180)
     ax.set_ylim(-20,110)
     ax.set_aspect(1)
@@ -99,8 +106,7 @@ def animateFunc(frame_number):
         print('xpiston+lplunger/2: ' + str(xpiston+lplunger/2))
         print('\n')
 
-    # plot the points
-    ax.plot( [0, xpivot, xhandle], [0, ypivot, yhandle], "*-", linewidth=3, label="lever")
+    ax.plot([0, xpivot, xhandle], [0, ypivot, yhandle], "*-", linewidth=3, label="lever")
     ax.plot([xpivot, xpiston], [ypivot, 0], '*-',linewidth=3, label="arm")
     ax.plot([xpiston-lplunger/2, xpiston+lplunger/2],[0,0], linewidth=3, label="plunger")
     ax.plot([xbase_min, xbase_max], [-5,-5], linewidth=3, label="base")
@@ -125,11 +131,17 @@ def makeAnimation():
     global fig
     global ax
     global print_points
+    global max_frames
+    global prev_thetas 
+
+    prev_thetas = []    
     print_points = True
+    max_frames = 100
     fig = plt.figure(figsize=(8,6))
     ax = plt.axes()
-    # eyes on frame 40
-    anim = animation.FuncAnimation(fig, animateFunc, frames=55, blit=False, repeat=True, interval=10)
+    anim = animation.FuncAnimation(fig, animateFunc, frames=max_frames+1,blit=False, repeat=False, interval=10)
+    anim_video = animation.PillowWriter(fps=60)
+    anim.save('system.gif', writer=anim_video)
     plt.show()
 
 
@@ -188,6 +200,6 @@ def testSingleFrame():
 
 
 if __name__ == '__main__':
-    #mechAdvantage(20.32, 15, 13.43, 69)
+    #mechAdvantage(22.15, 15, 13.75, 32.7)
     #testSingleFrame()
     makeAnimation()
