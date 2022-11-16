@@ -79,6 +79,7 @@ def animateFunc(frame_number):
     dtheta =  float(theta_max - theta_min) / float(49)
     theta = (frame_number * dtheta) + theta_min  
     # ugly hack below to get the 'correct' physics of the clamp
+    # using a stack to 'step-back' to the previous thetas
     if (frame_number < (max_frames/2)):
         prev_thetas.append(theta)
     else:
