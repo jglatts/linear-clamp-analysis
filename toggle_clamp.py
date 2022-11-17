@@ -116,6 +116,7 @@ def animateFunc(frame_number):
     ax.plot()
 
     if (frame_number == (max_frames/2)):
+        time.sleep(0.5)
         plt.savefig('clamp_locked.png')
 
 
