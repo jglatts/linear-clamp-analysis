@@ -29,7 +29,7 @@ class VertCam:
     """
     def drawPlunger(self):
         for i in range(len(self.plunger_x_cords)):
-            plt.plot(self.plunger_x_cords[i], self.plunger_y_cords[i], color='r', linestyle="--")
+            plt.plot(self.plunger_x_cords[i], self.plunger_y_cords[i], color='red', linestyle="--")
 
     """
         Draw the lever part
