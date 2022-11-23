@@ -14,13 +14,13 @@ class VertCam:
         self.plunger_y_cords = [[2, 2], [2, 1, 0], [0, 0, 0, 0], [0, 1, 2]]
         self.lever_x_cords = [1.5, 1.5, 1.5]
         self.lever_y_cords = [2, 3, 4]
-        self.initPlot()
+        self.fig, self.ax = plt.subplots()
 
     """
         Setup the matplot graph
     """
     def initPlot(self):
-        self.fig, self.ax = plt.subplots()
+        #self.fig, self.ax = plt.subplots()
         self.ax.set_title('Vertical Clamp Analysis')
         self.ax.set_xlim(0, 10)
         self.ax.set_ylim(-4, 8)
@@ -39,7 +39,7 @@ class VertCam:
         x_cords = []
 
         for val in self.lever_x_cords:
-            x_cords.append(val + (frame_number * 0.5))
+            x_cords.append(val + (frame_number * 0.1))
         
         plt.plot(x_cords, self.lever_y_cords, color='blue', linestyle="--")
 
@@ -48,9 +48,9 @@ class VertCam:
     """
     def anim(self, frame_number):
         self.ax.clear()
+        self.initPlot()
         self.drawLever(frame_number)
         self.drawPlunger()
-
 
     """
         Run the main analysis 
@@ -60,7 +60,8 @@ class VertCam:
             anim = animation.FuncAnimation(self.fig, self.anim, frames=5, blit=False, repeat=True, interval=100)    
             plt.show()
             return
-
+        
+        self.initPlot()
         self.drawPlunger()
         self.drawLever()
         self.drawLeverUnlocked()
